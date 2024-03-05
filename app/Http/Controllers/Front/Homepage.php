@@ -11,8 +11,8 @@ class Homepage extends Controller
 {
     public function index()
     {
-        $data['articles']= Article::orderBy('created_at','DESC')->get();
-
+        $data['articles']= Article::orderBy('created_at','DESC')->paginate(2);
+        $data['categories'] = Category::inRandomOrder()->get();
         return view('front.homepage',$data);
     }
 
@@ -29,10 +29,15 @@ class Homepage extends Controller
     {
         $category = Category::whereSlug($slug)->first() ?? abort(403,"Hatalı kategori linki");
         $data['category'] = $category;
-        $data['articles'] = Article::where('category_id',$category->id)->orderBy('created_at','DESC')->get();
+        $data['articles'] = Article::where('category_id',$category->id)->orderBy('created_at','DESC')->paginate(1);
         $data['categories'] = Category::inRandomOrder()->get();
         return view('front.category',$data);
 
 
+    }
+
+    public function contact()
+    {
+        return('iletişim');
     }
 }

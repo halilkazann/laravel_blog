@@ -14,6 +14,7 @@ use App\Http\Controllers\Front\Homepage;
 |
 */
 
+Route::get('/iletisim','App\Http\Controllers\Front\Homepage@contact')->name('contact');
 Route::get('/','App\Http\Controllers\Front\Homepage@index')->name('homepage');
 Route::get('/kategori/{category}','App\Http\Controllers\Front\Homepage@category')->name('category');
 

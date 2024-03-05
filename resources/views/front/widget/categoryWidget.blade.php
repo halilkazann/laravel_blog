@@ -6,6 +6,7 @@
 
         </div>
         <div class="list-group">
+
             @foreach($categories as $category)
 
                     <li class="list-group-item @if(Request::segment(2)==$category->slug) active @endif" >
