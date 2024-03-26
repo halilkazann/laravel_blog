@@ -6,6 +6,10 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Category;
 use App\Models\Article;
+use App\Models\Contact;
+use Illuminate\Validation\Validator;
+use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Validator;
 
 class Homepage extends Controller
 {
@@ -38,6 +42,29 @@ class Homepage extends Controller
 
     public function contact()
     {
-        return('iletişim');
+        return view('front.contact');
     }
+
+    public function contactpost(Request $request)
+    {
+        $rules = [
+            'name'=>'required|min:5',
+            'email'=>'required|mail',
+            'topic'=>'required',
+            'message'=>'required|min:10',
+        ];
+       $validate = Validator::make($request->post(),$rules);
+       if($validate->errors()){
+           print_r($validate->errors());
+       }
+        die;
+        $contact = New Contact();
+        $contact->name = $request->name;
+        $contact->email = $request->email;
+        $contact->topic = $request->topic;
+        $contact->message = $request->message;
+        $contact->save();
+        return redirect()->route('contact')->with('succes','Mesajınız tarafımıza iletilmiştir. Teşekkürler!');
+    }
+
 }
